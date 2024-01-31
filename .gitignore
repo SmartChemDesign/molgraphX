@@ -1,0 +1,8 @@
+Data
+Output
+/__pycache__/
+*/__pycache__/
+.idea/
+*/.idea/
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
