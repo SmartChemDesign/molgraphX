@@ -46,18 +46,18 @@ targets = ({
            },)
 model_parameters = {
     'pre_fc_params': {
-        'hidden': [32, 64, 128],
+        'hidden': [32, 64],
         'dropout': 0,
         'use_bn': True,
         'actf': ReLU(),
     },
     'post_fc_params': {
-        'hidden': [256, 128, 64],
+        'hidden': [256, 128],
         'dropout': 0,
         'use_bn': True,
         'actf': ReLU(),
     },
-    'hidden_conv': [128, 256],
+    'hidden_conv': [64, 256, 512],
     'conv_dropout': 0.2477382148987496,
     'conv_actf': LeakyReLU(),
     'conv_layer': MFConv,

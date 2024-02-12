@@ -264,7 +264,10 @@ def callback(study: optuna.Study, trial):
 
 if __name__ == "__main__":
     start = datetime.now()
-    study = optuna.create_study(direction="minimize")
+    study = optuna.create_study(
+        direction="minimize",
+        storage=f"sqlite:///{args.output_folder}/optuna_study.db"
+    )
     study.optimize(objective, n_trials=args.n_trials, timeout=args.timeout, callbacks=[callback])
     end = datetime.now()
 

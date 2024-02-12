@@ -2,7 +2,7 @@
 
 VENV=venv
 PYTHON=$(VENV)/bin/python3
-DEVICE=cpu
+DEVICE=gpu
 DATASET_FOLDER=Data
 OUTPUT_FOLDER=Output
 
@@ -15,7 +15,7 @@ venv:
 
 install_gpu_specific_dependencies:
 	@echo "=== Installing gpu-specific dependencies ==="
-	$(PYTHON) -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+	$(PYTHON) -m pip install torch==2.1.0+cu118 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 	$(PYTHON) -m pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.1.0+cu118.html
 	$(PYTHON) -m pip install  dgl -f https://data.dgl.ai/wheels/cu118/repo.html
 
@@ -64,6 +64,9 @@ optimize_hparams:
 		--target-name "mu" \
 		--output-folder "$(OUTPUT_FOLDER)/optuna" \
 		--n-trials 100 \
+		--batch-size 64 \
+		--epochs 1000 \
+		--es-patience 50 \
 		--seed 42
 
 
@@ -73,8 +76,10 @@ run_training:
 		--data $(DATASET_FOLDER)/qm9.csv \
 		--target-name "mu" \
 		--output-folder "$(OUTPUT_FOLDER)/trained_model" \
-		--epochs 3 \
-		--max-samples 100 \
+		--folds 5 \
+		--epochs 1000 \
+		--es-patience 100 \
+		--batch-size 64 \
 		--learning-rate 0.00025606270913924607 \
 		--seed 23
 

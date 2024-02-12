@@ -1,69 +1,76 @@
 # Molgraph Explainer
 
-## Preparing
-To prepare the repository, run the following commands:
+## Setup
+
+To accommodate dependencies that are specific to either GPU or CPU, you must define the target device. To do this,
+modify the `DEVICE` variable in the `Makefile`. Proceed with the setup by executing these commands:
 
 ```bash
 make install_all
 make download_dataset
 ```
 
-This will create the virtual environment, install all the dependencies, 
-and create the `Data` folder with QM9 dataset
+This process prepares the virtual environment, installs all necessary dependencies, and populates the `Data` folder with
+the required datasets.
 
-## Search for best hyperparameters
+## Hyperparameter Optimization
 
-Use the following command to repeat hyperparameters optimization search:
+To initiate the search for optimal hyperparameters, use:
 
 ```bash
 make optimize_hparams
 ```
 
-To modify the search space, you can
-adjust the parameters in the `objective` function
-located in the `Experiments/optimize_hparams.py` file.
+To tailor the search space, adjust the settings in the `objective` function within the `Experiments/optimize_hparams.py`
+script.
 
-Then you need to update hyperparameters in the `Experiments/train.py` file.
+Subsequently, incorporate the optimized hyperparameters into the `Experiments/train.py` script.
 
-## Train the model
+## Model Training
 
-To train the model, run:
+Execute the following to commence training:
 
 ```bash
 make run_training
 ```
 
-Metrics now can be found at `Output/trained_model/metrics.json`
+Upon completion, the performance metrics will be accessible in `Output/trained_model/metrics.json`.
 
-## Predict
+## Prediction
 
-To generate predictions on new data, you just need
-a trained model and a `.csv` file with `smiles` column.
+For predictions on new data, ensure you have a trained model and a `.csv` file featuring a `smiles` column.
 
-To generate predictions for all the molecules in QM9 dataset, run:
+To predict dipole moments for all molecules in the QM9 dataset, execute:
+
 ```bash
 make predictions
 ```
 
-## Explain
+## Explanation
+
+Generate explanations for model predictions with the command:
 
 ```bash
 venv/bin/python3 -m Experiments.demonstrations.subgraphX \
   --smiles "CCC(=O)" \
   --model-folder "Output/trained_model" \
   --output-file "Output/subgraphX_explanation.png"
-  
 ```
 
-To analyse computational time of different methods, 2-step approach is used:
+Examples demonstrating the usage of other explainers
+are available within the `test_explainers` function in the `Makefile`.
 
-1. Calculate times:
+## Computational Time Analysis
+
+To assess the computational efficiency of various methods, follow this two-step procedure:
+
+1. Record the times:
 
 ```bash
 make comp_time
 ```
-2. Analyse the results:
 
-Run the jupyter `/venv/bin/jupyter notebook`, then 
-open `Experiments/analyse_computational_time.ipynb` and 
-select the kernel named `molgraphx`.
+2. Evaluate the findings:
+
+Start the Jupyter Notebook server with `/venv/bin/jupyter notebook`, navigate
+to `Experiments/analyse_computational_time.ipynb`, and select the `molgraphx` kernel for analysis.
